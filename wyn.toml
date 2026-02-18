@@ -1,0 +1,7 @@
+[project]
+name = "pg"
+version = "0.1.0"
+description = "PostgreSQL driver for Wyn (wraps libpq)"
+
+[build]
+requires = ["libpq"]  # System dependency: brew install libpq / apt install libpq-dev

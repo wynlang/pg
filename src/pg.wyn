@@ -1,0 +1,46 @@
+// pg — PostgreSQL driver for Wyn
+// Requires: libpq (brew install libpq / apt install libpq-dev)
+// Build: wyn run src/pg.wyn --release (needs -lpq linker flag)
+//
+// Usage:
+//   var db = Pg.connect("host=localhost dbname=mydb user=postgres")
+//   var rows = Pg.query(db, "SELECT name FROM users")
+//   Pg.exec(db, "INSERT INTO users (name) VALUES ($1)", ["Alice"])
+//   Pg.close(db)
+
+// These functions are implemented in pg_native.c (C glue to libpq)
+// They are linked when building with: wyn run src/pg.wyn -- -lpq
+
+// Connect to PostgreSQL
+fn Pg_connect(conninfo: string) -> int {
+    // Calls pg_native_connect() from pg_native.c
+    return pg_native_connect(conninfo)
+}
+
+// Execute query, return result as string
+fn Pg_query(conn: int, sql: string) -> string {
+    return pg_native_query(conn, sql)
+}
+
+// Execute with parameters
+fn Pg_exec(conn: int, sql: string, params: array) -> string {
+    // For now, substitute $1, $2 etc with params
+    var query = sql
+    for i in 0..params.len() {
+        var placeholder = "$" + int_to_string(i + 1)
+        var value = "'" + params[i] + "'"
+        query = query.replace_all(placeholder, value)
+    }
+    return pg_native_query(conn, query)
+}
+
+// Close connection
+fn Pg_close(conn: int) {
+    pg_native_close(conn)
+}
+
+// Check if connection is alive
+fn Pg_ping(conn: int) -> bool {
+    var result = pg_native_query(conn, "SELECT 1")
+    return result.len() > 0
+}

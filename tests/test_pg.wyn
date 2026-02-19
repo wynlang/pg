@@ -1,28 +1,32 @@
 // pg tests — requires PostgreSQL running locally
 // Skip gracefully if not available
 
-fn main() -> int {
-    Test.init("PostgreSQL Package")
-
+test "conninfo has host" {
     // Test connection string building
     var conninfo = "host=localhost dbname=postgres user=postgres"
-    Test.assert(conninfo.contains("host="), "conninfo has host")
-    Test.assert(conninfo.contains("dbname="), "conninfo has dbname")
+    assert(conninfo.contains("host="))
+}
 
+test "conninfo has dbname" {
+    // Test connection string building
+    var conninfo = "host=localhost dbname=postgres user=postgres"
+    assert(conninfo.contains("dbname="))
+}
+
+test "param $1" {
+    // Test connection string building
+    var conninfo = "host=localhost dbname=postgres user=postgres"
     // Test parameter substitution
     var sql = "SELECT * FROM users WHERE id = $1 AND name = $2"
     var q = sql.replace_all("$1", "'42'").replace_all("$2", "'Alice'")
-    Test.assert(q.contains("'42'"), "param $1")
-    Test.assert(q.contains("'Alice'"), "param $2")
+    assert(q.contains("'42'"))
+}
 
-    // Live test (only if pg_native is linked and Postgres is running)
-    // var db = Pg_connect("host=localhost dbname=postgres user=postgres")
-    // if db >= 0 {
-    //     var r = Pg_query(db, "SELECT 1")
-    //     Test.assert_eq_str(r, "1", "live SELECT 1")
-    //     Pg_close(db)
-    // }
-
-    Test.summary()
-    return 0
+test "param $2" {
+    // Test connection string building
+    var conninfo = "host=localhost dbname=postgres user=postgres"
+    // Test parameter substitution
+    var sql = "SELECT * FROM users WHERE id = $1 AND name = $2"
+    var q = sql.replace_all("$1", "'42'").replace_all("$2", "'Alice'")
+    assert(q.contains("'Alice'"))
 }

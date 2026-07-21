@@ -1,4 +1,4 @@
-# pg — Official Wyn Package
+# pg - Official Wyn Package
 
 PostgreSQL driver for Wyn. Wraps libpq.
 

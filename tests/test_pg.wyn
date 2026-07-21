@@ -1,4 +1,4 @@
-// pg tests — requires PostgreSQL running locally
+// pg tests - requires PostgreSQL running locally
 // Skip gracefully if not available
 
 test "conninfo has host" {

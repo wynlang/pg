@@ -1,4 +1,4 @@
-// pg — PostgreSQL driver for Wyn
+// pg - PostgreSQL driver for Wyn
 // Requires: libpq (brew install libpq / apt install libpq-dev)
 // Build: wyn run src/pg.wyn --release (needs -lpq linker flag)
 //

@@ -1,4 +1,4 @@
-// pg_native.c — C glue between Wyn and libpq
+// pg_native.c - C glue between Wyn and libpq
 // Compile: cc -c pg_native.c -I$(pg_config --includedir) -o pg_native.o
 // Link:    -lpq
 
@@ -48,7 +48,7 @@ const char* pg_native_query(long long id, const char* sql) {
     int pos = 0;
     
     if (nrows == 1 && ncols == 1) {
-        // Single value — return directly
+        // Single value - return directly
         const char* val = PQgetvalue(res, 0, 0);
         snprintf(result, sizeof(result), "%s", val);
     } else {

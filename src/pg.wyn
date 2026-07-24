@@ -12,18 +12,18 @@
 // They are linked when building with: wyn run src/pg.wyn -- -lpq
 
 // Connect to PostgreSQL
-fn Pg_connect(conninfo: string) -> int {
+pub fn Pg_connect(conninfo: string) -> int {
     // Calls pg_native_connect() from pg_native.c
     return pg_native_connect(conninfo)
 }
 
 // Execute query, return result as string
-fn Pg_query(conn: int, sql: string) -> string {
+pub fn Pg_query(conn: int, sql: string) -> string {
     return pg_native_query(conn, sql)
 }
 
 // Execute with parameters
-fn Pg_exec(conn: int, sql: string, params: array) -> string {
+pub fn Pg_exec(conn: int, sql: string, params: array) -> string {
     // For now, substitute $1, $2 etc with params
     var query = sql
     for i in 0..params.len() {
@@ -35,12 +35,12 @@ fn Pg_exec(conn: int, sql: string, params: array) -> string {
 }
 
 // Close connection
-fn Pg_close(conn: int) {
+pub fn Pg_close(conn: int) {
     pg_native_close(conn)
 }
 
 // Check if connection is alive
-fn Pg_ping(conn: int) -> bool {
+pub fn Pg_ping(conn: int) -> bool {
     var result = pg_native_query(conn, "SELECT 1")
     return result.len() > 0
 }

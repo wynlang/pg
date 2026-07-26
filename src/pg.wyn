@@ -11,6 +11,12 @@
 // These functions are implemented in pg_native.c (C glue to libpq)
 // They are linked when building with: wyn run src/pg.wyn -- -lpq
 
+// ---- Native bindings (implemented in src/pg_native.c) ----------------------
+
+extern fn pg_native_connect(conninfo: string) -> int;
+extern fn pg_native_query(conn: int, sql: string) -> string;
+extern fn pg_native_close(conn: int);
+
 // Connect to PostgreSQL
 pub fn Pg_connect(conninfo: string) -> int {
     // Calls pg_native_connect() from pg_native.c
